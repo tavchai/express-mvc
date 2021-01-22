@@ -47,4 +47,59 @@ User.findId = (id, result) => {
     });
 }
 
+// create user 
+User.create = (newUser, result) => {
+    db.query(`INSERT INTO users SET ?`, newUser, (err, res) => {
+        if (err) {
+            console.log("err" + err);
+            result(null, err);
+        }
+        console.log("created Users: ", { id: res.insertId, ...newUser });
+        result(null, { id: res.insertId, ...newUser });
+    });
+}
+
+// update user
+User.updateById = (id, user, result) => {
+    var sql = `UPDATE users SET USERNAME = ? , EMAIL = ? WHERE id = ${id}`;
+    var values = [user.username, user.email];
+    db.query(sql, values, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            // not found users with the id
+            result({ userid: "not_found" }, null);
+            return;
+        }
+
+        console.log("updated uers: ", { id: id, ...user });
+        result(null, { id: id, ...user });
+    });
+}
+
+// delete user by id
+User.deleteById = (id, result) => {
+ 
+    db.query("DELETE FROM users WHERE id = ?",id, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            // not found user with the id
+            result({ userid: "not_found" }, null);
+            return;
+        }
+ 
+        console.log("deleted user with id: "+ id);
+        result(null, res);
+    })
+}
+
 module.exports = User;
