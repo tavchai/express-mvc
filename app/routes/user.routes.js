@@ -1,7 +1,6 @@
 
 const express = require('express');
 const user = require('../controllers/user.controller');
-const { deleteById } = require('../models/user.model');
 
 const router = express.Router();
 

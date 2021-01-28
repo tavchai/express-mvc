@@ -4,6 +4,7 @@ const db = require('./app/config/db');
 
 // import routes 
 const userRoute = require('./app/routes/user.routes');
+const StatusRoute = require('./app/routes/status.routes');
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,6 +16,9 @@ app.get('/', (req, res) => {
 
 // User 
 app.use('/users', userRoute);
+
+// Status 
+app.use('/status',StatusRoute);
 
 
 const port = 3000;

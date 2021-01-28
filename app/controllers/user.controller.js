@@ -13,7 +13,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    User.findId(req.params.id, (err, data) => {
+    User.findById(req.params.id, (err, data) => {
         if (err) {
             res.status(404).send({
                 message: `Not found User with id ${req.params.id}.`

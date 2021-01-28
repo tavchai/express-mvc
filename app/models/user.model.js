@@ -24,7 +24,7 @@ User.getAll = result => {
 
 
 // user find id 
-User.findId = (id, result) => {
+User.findById = (id, result) => {
     var sql = `SELECT * FROM users WHERE id = ${id}`;
     db.query(sql, (err, res) => {
 
