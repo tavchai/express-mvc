@@ -5,7 +5,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "express_login"
+    database: "restapi-users"
 });
 
 db.connect((err) => {

@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const validateUser = require('../function/validate.user');
 
 exports.findAll = (req, res) => {
     User.getAll((err, data) => {
@@ -25,19 +26,16 @@ exports.findById = (req, res) => {
 
 exports.create = (req, res) => {
 
-    // validate data 
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-    }
-
     // create users 
     const users = new User({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
     });
+
+    // validation data user 
+    const { error } = validateUser.createUser(users);
+    if (error) return res.send(error.details[0].message);
 
     // save User 
     User.create(users, (err, data) => {
@@ -64,6 +62,11 @@ exports.updateUserById = (req, res) => {
         email: req.body.email
     });
 
+    // validation data user 
+    const { error } = validateUser.updateUser(user);
+    if (error) return res.send(error.details[0].message);
+
+
     User.updateById(id, user, (err, data) => {
         if (err) {
             res.send(err);
@@ -86,5 +89,5 @@ exports.deleteById = (req, res) => {
             });
         }
         res.send({ message: `Customer was deleted successfully!` });
-    }); 
+    });
 }
